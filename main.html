@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn-add {
+            background-color: #007BFF;
+            border: none;
+        }
+        .btn-add:hover {
+            background-color: #0056b3;
+        }
+        .list-group-item {
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+        }
+        .btnn, .btnnn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            margin: 2px;
+        }
+        .btnn:hover, .btnnn:hover {
+            background-color: #a31d29;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Booking Form</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="namee">Name</label>
+                        <input type="text" class="form-control namee" id="namee">
+                    </div>
+                    <div class="form-group">
+                        <label for="name2">email Id</label>
+                        <input type="email" class="form-control name2" id="name2">
+                    </div>
+                    <button type="button" class="btn btn-add">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <ul class="list-group newC">
+        </ul>
+    </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+        <script>
+            const input = document.querySelector(".namee")
+            const input1 = document.querySelector(".name2")
+            const btn = document.querySelector(".btn")
+            const neww = document.querySelector(".newC")
+
+            // let initialValues = { };
+
+            btn.onclick = function () {
+                if (input.value === '') {
+                    alert("fill the details")
+                }
+                else {
+                    const lis = document.createElement("li")
+                    // neww.appendChild(lis)
+                    const liss = document.createElement("li")
+                    liss.classList.add("liss")
+                    liss.innerHTML+= "name:-"
+                    const lisss = document.createElement("li")
+                    lisss.classList.add("lisss")
+                    lisss.innerHTML+= "email:-"
+                    // neww.appendChild(liss)
+
+                    lis.innerHTML += `${ liss.innerHTML} ${ input.value } ${ lisss.innerHTML} ${ input1.value }`;
+                    neww.appendChild(lis)
+                    // input.value=""
+                    const dltBtn = document.createElement("button")
+                    dltBtn.classList.add("btnn")
+                    dltBtn.innerHTML = "Delete"
+                    lis.appendChild(dltBtn)
+                    const editBtn = document.createElement("button")
+                    editBtn.classList.add("btnnn")
+                    editBtn.innerHTML = "edit"
+                    lis.appendChild(editBtn)
+
+
+                    // initialValues[input.value] = input1.value;
+                    // FOR LOCAL STORAGE
+                    const userDetails = {
+                        name: input.value,
+                        email: input1.value,
+                    };
+                    // const key = input.value
+                    // const value = input1.value
+                    axios.post('https://crudcrud.com/api/bd79296fda4643af8c1f46e7057a13c3/bookingform', userDetails)
+                        .then((respone) => {
+                            console.log(respone.data)
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                    // localStorage.setItem(key, value)
+                }
+                input.value = ''
+                input1.value = ''
+            }
+            // const key="data"
+            // const value=""
+            // localStorage.setItem(key,value)
+
+
+
+            neww.addEventListener("click", function (e) {
+                if (e.target.className === "btnn") {
+                    e.target.parentElement.remove();
+                    // saveData();
+                }
+                else if (e.target.className === "btnnn") {
+                    const textContent = e.target.parentElement.firstChild.textContent.split(' ');
+                    input.value = textContent[1];
+                    input1.value = textContent[3];
+                    e.target.parentElement.remove();
+
+
+
+                }
+            })
+
+        </script>
+    </body>
+
+    </html>
